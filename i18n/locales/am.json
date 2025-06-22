@@ -1,0 +1,73 @@
+{
+  "welcome": {
+    "title": "ወደ MediScan AI እንኳን በደህና መጡ",
+    "subtitle": "ለመድሃኒት መለየት እና የጤና ምርመራ የጤንነት ረዳት AI",
+    "getStarted": "ይጀምሩ"
+  },
+  "auth": {
+    "login": "ግባ",
+    "register": "ተመዝገብ",
+    "email": "ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "confirmPassword": "የይለፍ ቃል አረጋግጥ",
+    "forgotPassword": "የይለፍ ቃልዎን ረሳዉት?",
+    "noAccount": "መለያ የለዎትም?",
+    "hasAccount": "ቀደም ሲል መለያ አለዎት?",
+    "signIn": "ግባ",
+    "signUp": "ተመዝገብ"
+  },
+  "navigation": {
+    "dashboard": "ዳሽቦርድ",
+    "scan": "ስካን",
+    "diagnosis": "ምርመራ",
+    "settings": "ቅንብሮች"
+  },
+  "dashboard": {
+    "welcome": "እንኳን ደህና መጡ",
+    "recentActivity": "የቅርብ ጊዜ እንቅስቃሴ",
+    "noActivity": "የቅርብ ጊዜ እንቅስቃሴ የለም",
+    "scanMedicine": "መድሃኒት ስካን ያድርጉ",
+    "getDiagnosis": "ምርመራ ያግኙ"
+  },
+  "scan": {
+    "title": "የመድሃኒት ስካነር",
+    "takePhoto": "ፎቶ ያንሱ",
+    "choosePhoto": "ከጋለሪ ይምረጡ",
+    "scanning": "መድሃኒት እየተመረመረ...",
+    "results": "የስካን ውጤቶች"
+  },
+  "diagnosis": {
+    "title": "የጤና ምርመራ",
+    "symptoms": "ምልክቶች",
+    "diet": "አመጋገብ",
+    "location": "አካባቢ",
+    "analyze": "ተንትን",
+    "analyzing": "ምልክቶች እየተተነተኑ...",
+    "results": "የምርመራ ውጤቶች"
+  },
+  "settings": {
+    "title": "ቅንብሮች",
+    "theme": "ገጽታ",
+    "language": "ቋንቋ",
+    "light": "ብሩህ",
+    "dark": "ጨለማ",
+    "system": "ስርዓት",
+    "signOut": "ውጣ",
+    "profile": "መገለጫ",
+    "account": "መለያ"
+  },
+  "profile": {
+    "title": "መገለጫ",
+    "personalInfo": "የግል መረጃ",
+    "medicalInfo": "የህክምና መረጃ",
+    "emergencyContact": "የአደጋ ጊዜ ግንኙነት",
+    "fullName": "ሙሉ ስም",
+    "phone": "ስልክ",
+    "dateOfBirth": "የልደት ቀን",
+    "gender": "ጾታ",
+    "medicalConditions": "የህክምና ሁኔታዎች",
+    "allergies": "አለርጂዎች",
+    "emergencyContactName": "የአደጋ ጊዜ ግንኙነት ስም",
+    "emergencyContactPhone": "የአደጋ ጊዜ ግንኙነት ስልክ"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "welcome": {
+    "title": "Welcome to MediScan AI",
+    "subtitle": "Your AI-powered medical assistant for medicine identification and health diagnosis",
+    "getStarted": "Get Started"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "scan": "Scan",
+    "diagnosis": "Diagnosis",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity",
+    "scanMedicine": "Scan Medicine",
+    "getDiagnosis": "Get Diagnosis"
+  },
+  "scan": {
+    "title": "Medicine Scanner",
+    "takePhoto": "Take Photo",
+    "choosePhoto": "Choose from Gallery",
+    "scanning": "Scanning medicine...",
+    "results": "Scan Results"
+  },
+  "diagnosis": {
+    "title": "Health Diagnosis",
+    "symptoms": "Symptoms",
+    "diet": "Diet",
+    "location": "Location",
+    "analyze": "Analyze",
+    "analyzing": "Analyzing symptoms...",
+    "results": "Diagnosis Results"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "signOut": "Sign Out",
+    "profile": "Profile",
+    "account": "Account"
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal Information",
+    "medicalInfo": "Medical Information",
+    "emergencyContact": "Emergency Contact",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "dateOfBirth": "Date of Birth",
+    "gender": "Gender",
+    "medicalConditions": "Medical Conditions",
+    "allergies": "Allergies",
+    "emergencyContactName": "Emergency Contact Name",
+    "emergencyContactPhone": "Emergency Contact Phone"
+  }
+}

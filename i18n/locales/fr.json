@@ -1,0 +1,73 @@
+{
+  "welcome": {
+    "title": "Bienvenue sur MediScan AI",
+    "subtitle": "Votre assistant médical alimenté par l'IA pour l'identification des médicaments et le diagnostic de santé",
+    "getStarted": "Commencer"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "scan": "Scanner",
+    "diagnosis": "Diagnostic",
+    "settings": "Paramètres"
+  },
+  "dashboard": {
+    "welcome": "Bon retour",
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité récente",
+    "scanMedicine": "Scanner un médicament",
+    "getDiagnosis": "Obtenir un diagnostic"
+  },
+  "scan": {
+    "title": "Scanner de médicaments",
+    "takePhoto": "Prendre une photo",
+    "choosePhoto": "Choisir dans la galerie",
+    "scanning": "Analyse du médicament...",
+    "results": "Résultats du scan"
+  },
+  "diagnosis": {
+    "title": "Diagnostic de santé",
+    "symptoms": "Symptômes",
+    "diet": "Alimentation",
+    "location": "Localisation",
+    "analyze": "Analyser",
+    "analyzing": "Analyse des symptômes...",
+    "results": "Résultats du diagnostic"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "theme": "Thème",
+    "language": "Langue",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "signOut": "Se déconnecter",
+    "profile": "Profil",
+    "account": "Compte"
+  },
+  "profile": {
+    "title": "Profil",
+    "personalInfo": "Informations personnelles",
+    "medicalInfo": "Informations médicales",
+    "emergencyContact": "Contact d'urgence",
+    "fullName": "Nom complet",
+    "phone": "Téléphone",
+    "dateOfBirth": "Date de naissance",
+    "gender": "Genre",
+    "medicalConditions": "Conditions médicales",
+    "allergies": "Allergies",
+    "emergencyContactName": "Nom du contact d'urgence",
+    "emergencyContactPhone": "Téléphone du contact d'urgence"
+  }
+}
