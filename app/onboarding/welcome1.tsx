@@ -19,7 +19,7 @@ export default function Welcome1Screen() {
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://img.freepik.com/premium-photo/3d-doctor-medical-consultation-avatar-online-healthcare-pharmacist-expert-icon-smiling-therapist-cartoon-male-cardiologist-vector-character-stethoscope-shield-young-man-3d-doctor-portrait_1254992-245454.jpg?w=900' }}
+            source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?t=st=1750664212~exp=1750667812~hmac=4c3499ab263e5301588ba0215a2243fe6fb854c3e8856d4f44f6cbc42c1edfbe&w=1480' }}
             style={styles.heroImage}
             resizeMode="cover"
           />
