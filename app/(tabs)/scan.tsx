@@ -219,7 +219,7 @@ export default function ScanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   backgroundColor: '#000',
+   backgroundColor: '#efe',
   },
   scrollView: {
     flex: 1,
