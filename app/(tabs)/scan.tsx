@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, ImageIcon, Loader, ArrowLeft } from 'lucide-react-native';
+import { Camera, Image as ImageIcon, Loader, ArrowLeft } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '@/components/Button';
 import { useTheme } from '@/contexts/ThemeContext';
