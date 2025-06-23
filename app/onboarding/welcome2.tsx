@@ -15,7 +15,7 @@ export default function Welcome2Screen() {
     <View style={styles.container}>
       {/* 1. Full-screen background image */}
       <Image
-        source={{ uri: 'https://img.freepik.com/free-photo/medicine-container-spills-colorful-pills-background-generative-ai_188544-12527.jpg?t=st=1750665829~exp=1750669429~hmac=ab09af96be48ae752a0a01c46306f701fd7688ed9b6d8c676b4eadc1da3a8df6&w=1480 }}
+        source={{ uri: 'https://img.freepik.com/free-photo/medicine-container-spills-colorful-pills-background-generative-ai_188544-12527.jpg?t=st=1750665829~exp=1750669429~hmac=ab09af96be48ae752a0a01c46306f701fd7688ed9b6d8c676b4eadc1da3a8df6&w=1480'}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
