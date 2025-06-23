@@ -158,7 +158,7 @@ export default function AboutScreen() {
             Made with ❤️ by Leul Ayfokru
           </Text>
           <Text style={[styles.footerSubtext, { color: colors.textSecondary }]}>
-            © 2024 MediScan AI. All rights reserved.
+            © 2025 MediScan AI. All rights reserved.
           </Text>
         </View>
 
