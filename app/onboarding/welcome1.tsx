@@ -28,7 +28,7 @@ export default function Welcome1Screen() {
         
         <View style={styles.textContainer}>
           <Text style={styles.title}>
-            Welcome to{'\n'}MediScan AI
+            Welcome to{''}MediScan AI
           </Text>
           <Text style={styles.subtitle}>
             Your intelligent medical companion for medicine identification and health insights
