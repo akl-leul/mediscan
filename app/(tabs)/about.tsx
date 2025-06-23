@@ -104,7 +104,7 @@ export default function AboutScreen() {
             <SkillCard
               icon={Smartphone}
               title="Mobile Development"
-              description="React Native, Expo, iOS & Android"
+              description="React Native, Expo, iOS & Android, Flutter, Dart"
             />
             <SkillCard
               icon={Globe}
