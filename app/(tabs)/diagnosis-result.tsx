@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, AlertTriangle, CheckCircle, Clock } from 'lucide-react-native';
+import { ArrowLeft, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle, Clock } from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Disease } from '@/types';
 import { Button } from '@/components/Button';
