@@ -158,8 +158,7 @@ export default function ScanScreen() {
               <Button
                 title="Choose from Gallery"
                 onPress={chooseFromGallery}
-                variant="outline"
-                style={{ color: '#000' }}
+                variant="outline" 
               />
             </View>
           </View>
@@ -220,6 +219,7 @@ export default function ScanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+   backgroundColor: '#000',
   },
   scrollView: {
     flex: 1,
