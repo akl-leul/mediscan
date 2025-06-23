@@ -5,27 +5,32 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from '@/components/Button';
 import { useTheme } from '@/contexts/ThemeContext';
 
+// Dimensions can be kept but aren't strictly necessary with the new layout
 const { width, height } = Dimensions.get('window');
 
 export default function Welcome3Screen() {
   const router = useRouter();
+  // useTheme is kept in case your custom Button component relies on it
   const { colors } = useTheme();
 
   return (
-    <LinearGradient
-      colors={['#4facfe', '#00f2fe']}
-      style={styles.container}
-    >
-      <View style={styles.content}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?t=st=1750664526~exp=1750668126~hmac=c1e2364c3a35483fb2b6d0797b71625f9745e96a8d08ad87ee1c853bc6b6020d&w=1480' }}
-            style={styles.heroImage}
-            resizeMode="cover"
-          />
-          <View style={styles.overlay} />
-        </View>
-        
+    <View style={styles.container}>
+      {/* 1. Full-screen background image */}
+      <Image
+        source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?w=1480' }}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      />
+
+      {/* 2. Gradient overlay that fades from bottom to top */}
+      <LinearGradient
+        // Fades from transparent at the top to a dark shade at the bottom
+        colors={['transparent', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.9)']}
+        style={styles.gradientOverlay}
+      />
+
+      {/* 3. Content is pushed to the bottom */}
+      <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>
             AI Health{'\n'}Diagnosis
@@ -48,42 +53,36 @@ export default function Welcome3Screen() {
           </View>
         </View>
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000', // Fallback background color
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-  },
-  imageContainer: {
-    flex: 0.6,
-    marginTop: 60,
-    borderRadius: 0,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  heroImage: {
+  backgroundImage: {
+    // This makes the image fill the entire screen, behind all other content
+    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+  gradientOverlay: {
+    // This gradient sits on top of the image to provide the fade effect
+    ...StyleSheet.absoluteFillObject,
+  },
+  contentContainer: {
+    flex: 1,
+    // Pushes content to the bottom
+    justifyContent: 'flex-end', 
+    paddingHorizontal: 24,
+    // Adds padding at the very bottom of the screen
+    paddingBottom: 50, 
   },
   textContainer: {
-    flex: 0.3,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 32,
+    marginBottom: 32, // Space between text and button
   },
   title: {
     fontSize: 36,
@@ -101,10 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   buttonContainer: {
-    flex: 0.1,
-    justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 40,
   },
   pagination: {
     flexDirection: 'row',
