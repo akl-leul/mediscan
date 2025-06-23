@@ -13,23 +13,24 @@ export default function Welcome1Screen() {
 
   return (
     <View style={styles.container}>
-      {/* 1. Full-screen background image */}
+      {/* 1. Using a high-resolution background image */}
       <Image
-        source={{ uri: 'https://i.pinimg.com/236x/16/7c/c9/167cc9c96c2302638429c1c986feea39.jpg' }}
+        source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?w=1480' }}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
 
-      {/* 2. Gradient overlay that fades into your specified colors */}
+      {/* 2. Gradient overlay with adjusted locations for a better fade */}
       <LinearGradient
-        // Starts transparent, then fades into your original colors
         colors={['transparent', '#667eea', '#764ba2']}
-        // Adjust the locations to control where the fade starts
-        locations={[0, 0.5, 1]}
+        // THIS IS THE KEY CHANGE:
+        // The gradient is transparent for the top 50% of the screen,
+        // then fades into your colors in the bottom half.
+        locations={[0.5, 0.8, 1.0]} 
         style={styles.gradientOverlay}
       />
       
-      {/* 3. Content container that pushes everything to the bottom */}
+      {/* 3. Content container remains the same */}
       <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>
@@ -60,29 +61,25 @@ export default function Welcome1Screen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Fallback color
+    backgroundColor: '#000',
   },
   backgroundImage: {
-    // Fills the entire screen, behind all other content
     ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
   gradientOverlay: {
-    // Sits on top of the image to provide the colored fade effect
     ...StyleSheet.absoluteFillObject,
   },
   contentContainer: {
     flex: 1,
-    // Pushes content to the bottom
     justifyContent: 'flex-end', 
     paddingHorizontal: 24,
-    // Safe area padding at the bottom
     paddingBottom: 50, 
   },
   textContainer: {
     alignItems: 'center',
-    marginBottom: 32, // Space between text and button
+    marginBottom: 32,
   },
   title: {
     fontSize: 36,
