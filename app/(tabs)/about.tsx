@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Mail, Github, Heart, Code, Smartphone, ChevronRight } from 'lucide-react-native';
+import { ArrowLeft, Mail, Github, Globe, Heart, Code, Smartphone } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,105 +10,160 @@ export default function AboutScreen() {
   const router = useRouter();
   const { colors } = useTheme();
 
-  const handleEmailPress = () => Linking.openURL('mailto:layfokru@gmail.com');
-  const handleGithubPress = () => Linking.openURL('https://github.com/akl-leul');
+  const handleEmailPress = () => {
+    Linking.openURL('mailto:layfokru@gmail.com');
+  };
 
-  // Re-styled components for the new UI
-  const SkillCard = ({ icon: Icon, title, description }) => (
-    <View style={styles.skillCard}>
-      <View style={[styles.skillIconContainer, { backgroundColor: colors.primary }]}>
-        <Icon size={24} color="#FFFFFF" />
+  const handleGithubPress = () => {
+    Linking.openURL('https://github.com/akl-leul');
+  };
+
+  const SkillCard = ({ icon: Icon, title, description }: { icon: any; title: string; description: string }) => (
+    <View style={[styles.skillCard, { backgroundColor: colors.card }]}>
+      <View style={[styles.skillIcon, { backgroundColor: `${colors.primary}20` }]}>
+        <Icon size={24} color={colors.primary} />
       </View>
-      <Text style={styles.skillTitle}>{title}</Text>
-      <Text style={styles.skillDescription}>{description}</Text>
+      <Text style={[styles.skillTitle, { color: colors.text }]}>{title}</Text>
+      <Text style={[styles.skillDescription, { color: colors.textSecondary }]}>{description}</Text>
     </View>
   );
 
-  const ContactCard = ({ icon: Icon, title, subtitle, onPress }) => (
-    <TouchableOpacity style={styles.contactCard} onPress={onPress} activeOpacity={0.7}>
-      <View style={styles.contactIconContainer}>
-        <Icon size={24} color={colors.primary} />
+  const ContactCard = ({ icon: Icon, title, subtitle, onPress }: { icon: any; title: string; subtitle: string; onPress: () => void }) => (
+    <TouchableOpacity
+      style={[styles.contactCard, { backgroundColor: colors.card }]}
+      onPress={onPress}
+    >
+      <View style={[styles.contactIcon, { backgroundColor: `${colors.primary}20` }]}>
+        <Icon size={20} color={colors.primary} />
       </View>
       <View style={styles.contactInfo}>
-        <Text style={styles.contactTitle}>{title}</Text>
-        <Text style={styles.contactSubtitle}>{subtitle}</Text>
+        <Text style={[styles.contactTitle, { color: colors.text }]}>{title}</Text>
+        <Text style={[styles.contactSubtitle, { color: colors.textSecondary }]}>{subtitle}</Text>
       </View>
-      <ChevronRight size={20} color="rgba(255, 255, 255, 0.5)" />
     </TouchableOpacity>
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <StatusBar barStyle="light-content" />
-      
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* --- NEW Immersive Header --- */}
-        <LinearGradient colors={['#1e1c3a', '#3d2f6f', '#764ba2']} style={styles.heroSection}>
-          <SafeAreaView style={{width: '100%'}}>
-            <View style={styles.headerNav}>
-              <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                <ArrowLeft size={24} color="#FFFFFF" />
-              </TouchableOpacity>
-              <Text style={styles.headerTitle}>About Developer</Text>
-              <View style={{ width: 44 }} /> {/* Placeholder for balance */}
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <ArrowLeft size={24} color={colors.text} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>
+          About Developer
+        </Text>
+        <View style={styles.placeholder} />
+      </View>
+
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        {/* Hero Section */}
+        <LinearGradient
+          colors={['#667eea', '#764ba2']}
+          style={styles.heroSection}
+        >
+          <View style={styles.profileImageContainer}>
+            <View style={styles.profileImage}>
+              <Text style={styles.profileInitials}>LA</Text>
             </View>
-          </SafeAreaView>
-          
-          {/* --- Profile Image and Info --- */}
-          <Image
-            source={{ uri: 'https://i.ibb.co/L8Wk3gV/Untitled-design-2.png' }}
-            style={styles.profileImage}
-          />
+          </View>
           <Text style={styles.heroName}>Leul Ayfokru</Text>
-          <Text style={styles.heroTitle}>Full Stack Developer • 3+ Years Experience</Text>
+          <Text style={styles.heroTitle}>Full Stack Developer</Text>
+          <Text style={styles.heroExperience}>3+ Years Experience</Text>
         </LinearGradient>
 
-        <View style={styles.contentContainer}>
-          {/* About Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>About Me</Text>
-            <Text style={styles.aboutText}>
-              I'm a passionate full-stack developer specializing in creating modern, user-friendly, and scalable applications that solve real-world problems.
-            </Text>
-            <Text style={styles.aboutText}>
-              MediScan AI is my commitment to leveraging technology for healthcare innovation, making it more accessible through AI.
-            </Text>
-          </View>
+        {/* About Section */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            About Me
+          </Text>
+          <Text style={[styles.aboutText, { color: colors.textSecondary }]}>
+            I'm a passionate full-stack developer with over 3 years of experience building modern web and mobile applications. 
+            I specialize in creating user-friendly, scalable solutions that solve real-world problems.
+          </Text>
+          <Text style={[styles.aboutText, { color: colors.textSecondary }]}>
+            MediScan AI represents my commitment to leveraging technology for healthcare innovation, 
+            combining AI-powered medicine identification with intelligent health diagnosis to make healthcare more accessible.
+          </Text>
+        </View>
 
-          {/* Skills Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Expertise</Text>
-            <View style={styles.skillsGrid}>
-              <SkillCard icon={Code} title="Web & Backend" description="React, Node.js, Next.js" />
-              <SkillCard icon={Smartphone} title="Mobile" description="React Native, Expo" />
-            </View>
-          </View>
-
-          {/* Contact Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Get In Touch</Text>
-            <ContactCard icon={Mail} title="Email" subtitle="layfokru@gmail.com" onPress={handleEmailPress} />
-            <ContactCard icon={Github} title="GitHub" subtitle="github.com/akl-leul" onPress={handleGithubPress} />
-          </View>
-
-          {/* App Info Section */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>About MediScan AI</Text>
-            <View style={styles.appInfoCard}>
-              <Text style={styles.appInfoText}>
-                Built with React Native and powered by Google Cloud Vision & AI Studio, MediScan AI uses computer vision and AI for instant medicine identification and health insights.
-              </Text>
-            </View>
-          </View>
-
-          {/* Footer */}
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Made with ❤️ by Leul Ayfokru</Text>
-            <Text style={styles.footerSubtext}>© 2025 MediScan AI. All rights reserved.</Text>
+        {/* Skills Section */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            Expertise
+          </Text>
+          <View style={styles.skillsGrid}>
+            <SkillCard
+              icon={Code}
+              title="Web Development"
+              description="React, Node.js, TypeScript, Next.js"
+            />
+            <SkillCard
+              icon={Smartphone}
+              title="Mobile Development"
+              description="React Native, Expo, iOS & Android"
+            />
+            <SkillCard
+              icon={Globe}
+              title="Full Stack"
+              description="End-to-end application development"
+            />
+            <SkillCard
+              icon={Heart}
+              title="UI/UX Design"
+              description="User-centered design principles"
+            />
           </View>
         </View>
+
+        {/* Contact Section */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            Get In Touch
+          </Text>
+          <ContactCard
+            icon={Mail}
+            title="Email"
+            subtitle="layfokru@gmail.com"
+            onPress={handleEmailPress}
+          />
+          <ContactCard
+            icon={Github}
+            title="GitHub"
+            subtitle="github.com/akl-leul"
+            onPress={handleGithubPress}
+          />
+        </View>
+
+        {/* App Info Section */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+            About MediScan AI
+          </Text>
+          <View style={[styles.appInfoCard, { backgroundColor: colors.card }]}>
+            <Text style={[styles.appInfoText, { color: colors.textSecondary }]}>
+              MediScan AI is an innovative healthcare application that combines computer vision and artificial intelligence 
+              to provide instant medicine identification and health diagnosis. Built with React Native and powered by 
+              Google Cloud Vision API and Google AI Studio.
+            </Text>
+          </View>
+        </View>
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+            Made with ❤️ by Leul Ayfokru
+          </Text>
+          <Text style={[styles.footerSubtext, { color: colors.textSecondary }]}>
+            © 2025 MediScan AI. All rights reserved.
+          </Text>
+        </View>
+
+        <View style={styles.bottomSpacing} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -116,38 +171,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // --- New Header & Hero Styles ---
-  heroSection: {
-    alignItems: 'center',
-    paddingBottom: 40,
-  },
-  headerNav: {
-    width: '100%',
+  header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
   },
   backButton: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 4,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#FFFFFF',
+  },
+  placeholder: {
+    width: 32,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  heroSection: {
+    padding: 40,
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  profileImageContainer: {
+    marginBottom: 20,
   },
   profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 3,
     borderColor: 'rgba(255,255,255,0.3)',
-    marginBottom: 20,
+  },
+  profileInitials: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
   heroName: {
     fontSize: 28,
@@ -156,12 +222,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   heroTitle: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
+    fontSize: 18,
+    color: 'rgba(255,255,255,0.9)',
+    marginBottom: 4,
   },
-  // --- Content Styles ---
-  contentContainer: {
-    paddingTop: 24, // Space from the hero section
+  heroExperience: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.8)',
   },
   section: {
     paddingHorizontal: 20,
@@ -170,65 +237,73 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FFFFFF', // Assuming dark theme
     marginBottom: 16,
   },
   aboutText: {
     fontSize: 16,
     lineHeight: 24,
-    color: 'rgba(255,255,255,0.7)',
-    marginBottom: 12,
+    marginBottom: 16,
   },
-  // --- Re-styled "Glass" Cards ---
   skillsGrid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 16,
   },
   skillCard: {
     flex: 1,
+    minWidth: '45%',
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 16,
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  skillIconContainer: {
+  skillIcon: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
+    justifyContent: 'center',
+    marginBottom: 12,
   },
   skillTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 4,
+    marginBottom: 8,
+    textAlign: 'center',
   },
   skillDescription: {
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.6)',
+    fontSize: 12,
     textAlign: 'center',
+    lineHeight: 16,
   },
   contactCard: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    borderRadius: 16,
+    borderRadius: 12,
     marginBottom: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  contactIconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
+  contactIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
-    backgroundColor: 'rgba(128, 90, 213, 0.15)',
+    justifyContent: 'center',
     marginRight: 16,
   },
   contactInfo: {
@@ -237,39 +312,41 @@ const styles = StyleSheet.create({
   contactTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    marginBottom: 4,
   },
   contactSubtitle: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.6)',
   },
   appInfoCard: {
     padding: 20,
     borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   appInfoText: {
     fontSize: 14,
     lineHeight: 22,
-    color: 'rgba(255,255,255,0.7)',
   },
   footer: {
     alignItems: 'center',
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.1)',
-    marginTop: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 24,
   },
   footerText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
-    color: 'rgba(255,255,255,0.6)',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   footerSubtext: {
     fontSize: 12,
-    color: 'rgba(255,255,255,0.4)',
+  },
+  bottomSpacing: {
+    height: 40,
   },
 });
