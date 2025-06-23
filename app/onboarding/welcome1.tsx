@@ -15,7 +15,7 @@ export default function Welcome1Screen() {
     <View style={styles.container}>
       {/* 1. Full-screen background image */}
       <Image
-        source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?w=1480' }}
+        source={{ uri: 'https://i.pinimg.com/236x/16/7c/c9/167cc9c96c2302638429c1c986feea39.jpg' }}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
