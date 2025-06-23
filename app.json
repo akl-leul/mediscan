@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MediScan",
-    "slug": "mediscan",
+    "name": "MediScan AI",
+    "slug": "mediscanai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
