@@ -17,7 +17,7 @@ export default function Welcome3Screen() {
     <View style={styles.container}>
       {/* 1. Full-screen background image */}
       <Image
-        source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?w=1480' }}
+        source={{ uri: 'https://img.freepik.com/free-photo/3d-character-emerging-from-smartphone_23-2151336682.jpg?t=st=1750666244~exp=1750669844~hmac=fe130185202eb49df9efd91f2f0c72c2fc3e71abbac142be8366c8bbbea9e830&w=1480' }}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
