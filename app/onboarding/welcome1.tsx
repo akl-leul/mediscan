@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'rgba(255,255,255,0.9)',
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 16,
     paddingHorizontal: 16,
   },
   buttonContainer: {
