@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput as RNTextInput, View, Text, StyleSheet, Pressable } from 'react-native';
+import { TextInput as RNTextInput, View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 
 // Add new props for icon and other RNTextInput props
@@ -37,13 +37,11 @@ export function TextInput({
         </Text>
       )}
       
-      {/* The main input container with dynamic styles */}
       <View 
         style={[
           styles.inputContainer,
           { 
             borderColor: getBorderColor(),
-            // Add a subtle inner shadow/glow when focused
             shadowColor: isFocused ? 'rgba(128, 90, 213, 0.8)' : 'transparent',
             shadowRadius: isFocused ? 10 : 0,
             shadowOpacity: 0.8,
@@ -52,9 +50,16 @@ export function TextInput({
       >
         {icon && <View style={styles.iconContainer}>{icon}</View>}
         <RNTextInput
+          // --- THIS IS THE FIX ---
+          // Spread the other props FIRST...
+          {...props} 
+          
+          // ...then define your controlled props LAST to ensure they take precedence.
           style={styles.input}
           value={value}
           onChangeText={onChangeText}
+          // --- END OF FIX ---
+          
           placeholder={placeholder}
           placeholderTextColor="rgba(255, 255, 255, 0.5)"
           secureTextEntry={secureTextEntry}
@@ -62,7 +67,6 @@ export function TextInput({
           onBlur={() => setIsFocused(false)}
           autoCorrect={false}
           spellCheck={false}
-          {...props} // Apply remaining props like keyboardType, etc.
         />
       </View>
 
@@ -90,9 +94,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: 16,
     borderWidth: 1.5,
-    height: 56, // Fixed height for a consistent look
+    height: 56,
     paddingHorizontal: 12,
-    transition: 'border-color 0.3s', // Note: transition property is web-only
   },
   iconContainer: {
     marginRight: 12,
