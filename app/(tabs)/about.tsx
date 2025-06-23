@@ -66,7 +66,7 @@ export default function AboutScreen() {
         >
           <View style={styles.profileImageContainer}>
             <View style={styles.profileImage}>
-              <Text style={styles.profileInitials}>LA</Text>
+              <Text style={styles.profileInitials}>LAK</Text>
             </View>
           </View>
           <Text style={styles.heroName}>Leul Ayfokru</Text>
