@@ -126,7 +126,7 @@ export default function ScanScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.containe]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>
@@ -158,7 +158,7 @@ export default function ScanScreen() {
               <Button
                 title="Choose from Gallery"
                 onPress={chooseFromGallery}
-                variant="outline" 
+                variant="outline"
               />
             </View>
           </View>
@@ -219,7 +219,6 @@ export default function ScanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eeffee',
   },
   scrollView: {
     flex: 1,
