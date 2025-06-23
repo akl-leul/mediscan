@@ -31,7 +31,7 @@ const lightColors = {
 
 const darkColors = {
   primary: '#60A5FA',
-  background: '#111827',
+  background: '#1e1b2e',
   surface: '#1F2937',
   text: '#F9FAFB',
   textSecondary: '#D1D5DB',
