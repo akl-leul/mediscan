@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 0.6,
     marginTop: 60,
-    borderRadius: 24,
+    borderRadius: 0,
     overflow: 'hidden',
     position: 'relative',
   },
