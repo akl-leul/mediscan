@@ -12,20 +12,25 @@ export default function Welcome1Screen() {
   const { colors } = useTheme();
 
   return (
-    <LinearGradient
-      colors={['#667eea', '#764ba2']}
-      style={styles.container}
-    >
-      <View style={styles.content}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?t=st=1750664212~exp=1750667812~hmac=4c3499ab263e5301588ba0215a2243fe6fb854c3e8856d4f44f6cbc42c1edfbe&w=1480' }}
-            style={styles.heroImage}
-            resizeMode="cover"
-          />
-          <View style={styles.overlay} />
-        </View>
-        
+    <View style={styles.container}>
+      {/* 1. Full-screen background image */}
+      <Image
+        source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?w=1480' }}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      />
+
+      {/* 2. Gradient overlay that fades into your specified colors */}
+      <LinearGradient
+        // Starts transparent, then fades into your original colors
+        colors={['transparent', '#667eea', '#764ba2']}
+        // Adjust the locations to control where the fade starts
+        locations={[0, 0.5, 1]}
+        style={styles.gradientOverlay}
+      />
+      
+      {/* 3. Content container that pushes everything to the bottom */}
+      <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>
             Welcome to{'\n'}MediScan AI
@@ -48,42 +53,36 @@ export default function Welcome1Screen() {
           </View>
         </View>
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000', // Fallback color
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-  },
-  imageContainer: {
-    flex: 0.6,
-    marginTop: 60,
-    borderRadius: 24,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  heroImage: {
+  backgroundImage: {
+    // Fills the entire screen, behind all other content
+    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+  gradientOverlay: {
+    // Sits on top of the image to provide the colored fade effect
+    ...StyleSheet.absoluteFillObject,
+  },
+  contentContainer: {
+    flex: 1,
+    // Pushes content to the bottom
+    justifyContent: 'flex-end', 
+    paddingHorizontal: 24,
+    // Safe area padding at the bottom
+    paddingBottom: 50, 
   },
   textContainer: {
-    flex: 0.3,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 32,
+    marginBottom: 32, // Space between text and button
   },
   title: {
     fontSize: 36,
@@ -101,10 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   buttonContainer: {
-    flex: 0.1,
-    justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingBottom: 40,
   },
   pagination: {
     flexDirection: 'row',
