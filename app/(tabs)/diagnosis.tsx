@@ -9,18 +9,18 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { aiStudio, DiagnosisResponse } from '@/services/aiStudioApi';
 import { supabase } from '@/lib/supabase';
-import { Disease } from '@/types';
+import { useRouter } from 'expo-router';
 
 export default function DiagnosisScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user } = useAuth();
+  const router = useRouter();
   
   const [symptoms, setSymptoms] = useState('');
   const [diet, setDiet] = useState('');
   const [location, setLocation] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
-  const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResponse | null>(null);
 
   const validateForm = () => {
     if (!symptoms.trim()) {
@@ -38,7 +38,7 @@ export default function DiagnosisScreen() {
     return true;
   };
 
-  const analyzeSyntoms = async () => {
+  const analyzeSymptoms = async () => {
     if (!validateForm()) return;
 
     setAnalyzing(true);
@@ -49,8 +49,6 @@ export default function DiagnosisScreen() {
         location: location.trim(),
       });
       
-      setDiagnosisResult(result);
-      
       // Save to database
       await supabase.from('diagnosis_results').insert({
         user_id: user?.id,
@@ -60,6 +58,20 @@ export default function DiagnosisScreen() {
         possible_diseases: result.possibleDiseases,
         recommendations: result.recommendations,
       });
+
+      // Navigate to results page with data
+      router.push({
+        pathname: '/diagnosis-result',
+        params: {
+          data: JSON.stringify({
+            ...result,
+            symptoms: symptoms.trim(),
+            diet: diet.trim(),
+            location: location.trim(),
+          })
+        }
+      });
+      
     } catch (error) {
       Alert.alert('Analysis Failed', error instanceof Error ? error.message : 'Unknown error');
     } finally {
@@ -67,135 +79,89 @@ export default function DiagnosisScreen() {
     }
   };
 
-  const resetForm = () => {
-    setSymptoms('');
-    setDiet('');
-    setLocation('');
-    setDiagnosisResult(null);
-  };
-
-  const DiseaseCard = ({ disease }: { disease: Disease }) => (
-    <View style={[styles.diseaseCard, { backgroundColor: colors.card }]}>
-      <View style={styles.diseaseHeader}>
-        <Text style={[styles.diseaseName, { color: colors.text }]}>
-          {disease.name}
-        </Text>
-        <View style={[
-          styles.probabilityBadge,
-          { backgroundColor: disease.probability > 50 ? '#EF4444' : '#F59E0B' }
-        ]}>
-          <Text style={styles.probabilityText}>
-            {disease.probability}%
-          </Text>
-        </View>
-      </View>
-      <Text style={[styles.diseaseDescription, { color: colors.textSecondary }]}>
-        {disease.description}
-      </Text>
-    </View>
-  );
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>
-            {t('diagnosis.title')}
+            Health Diagnosis
+          </Text>
+          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+            Get AI-powered health insights based on your symptoms
           </Text>
         </View>
 
-        {!diagnosisResult ? (
-          <View style={styles.formSection}>
-            <View style={styles.inputSection}>
-              <View style={styles.inputHeader}>
-                <Activity size={20} color={colors.primary} />
-                <Text style={[styles.inputLabel, { color: colors.text }]}>
-                  {t('diagnosis.symptoms')}
-                </Text>
-              </View>
-              <TextInput
-                value={symptoms}
-                onChangeText={setSymptoms}
-                placeholder="Describe your symptoms (e.g., headache, fever, nausea)"
-                multiline
-                numberOfLines={3}
-              />
-            </View>
-
-            <View style={styles.inputSection}>
-              <View style={styles.inputHeader}>
-                <UtensilsCrossed size={20} color={colors.primary} />
-                <Text style={[styles.inputLabel, { color: colors.text }]}>
-                  {t('diagnosis.diet')}
-                </Text>
-              </View>
-              <TextInput
-                value={diet}
-                onChangeText={setDiet}
-                placeholder="Describe your recent diet and food intake"
-                multiline
-                numberOfLines={3}
-              />
-            </View>
-
-            <View style={styles.inputSection}>
-              <View style={styles.inputHeader}>
-                <MapPin size={20} color={colors.primary} />
-                <Text style={[styles.inputLabel, { color: colors.text }]}>
-                  {t('diagnosis.location')}
-                </Text>
-              </View>
-              <TextInput
-                value={location}
-                onChangeText={setLocation}
-                placeholder="Enter your current location (city, country)"
-              />
-            </View>
-
-            <Button
-              title={analyzing ? t('diagnosis.analyzing') : t('diagnosis.analyze')}
-              onPress={analyzeSyntoms}
-              loading={analyzing}
-              variant="primary"
-            />
-          </View>
-        ) : (
-          <View style={styles.resultsSection}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              {t('diagnosis.results')}
-            </Text>
-
-            <View style={[styles.disclaimer, { backgroundColor: colors.surface }]}>
-              <Text style={[styles.disclaimerText, { color: colors.textSecondary }]}>
-                ⚠️ This is for informational purposes only. Please consult a healthcare professional for proper medical advice.
+        <View style={styles.formSection}>
+          <View style={styles.inputSection}>
+            <View style={styles.inputHeader}>
+              <Activity size={20} color={colors.primary} />
+              <Text style={[styles.inputLabel, { color: colors.text }]}>
+                Symptoms
               </Text>
             </View>
-
-            <Text style={[styles.subsectionTitle, { color: colors.text }]}>
-              Possible Conditions
+            <TextInput
+              value={symptoms}
+              onChangeText={setSymptoms}
+              placeholder="Describe your symptoms (e.g., headache, fever, nausea, fatigue)"
+              multiline
+              numberOfLines={4}
+            />
+            <Text style={[styles.helperText, { color: colors.textSecondary }]}>
+              Be as specific as possible about what you're experiencing
             </Text>
-            
-            {diagnosisResult.possibleDiseases.map((disease, index) => (
-              <DiseaseCard key={index} disease={disease} />
-            ))}
+          </View>
 
-            <Text style={[styles.subsectionTitle, { color: colors.text }]}>
-              Recommendations
-            </Text>
-            
-            <View style={[styles.recommendationsCard, { backgroundColor: colors.card }]}>
-              <Text style={[styles.recommendationsText, { color: colors.textSecondary }]}>
-                {diagnosisResult.recommendations}
+          <View style={styles.inputSection}>
+            <View style={styles.inputHeader}>
+              <UtensilsCrossed size={20} color={colors.primary} />
+              <Text style={[styles.inputLabel, { color: colors.text }]}>
+                Recent Diet
               </Text>
             </View>
-
-            <Button
-              title="New Diagnosis"
-              onPress={resetForm}
-              variant="outline"
+            <TextInput
+              value={diet}
+              onChangeText={setDiet}
+              placeholder="Describe your recent meals and food intake over the past 24-48 hours"
+              multiline
+              numberOfLines={4}
             />
+            <Text style={[styles.helperText, { color: colors.textSecondary }]}>
+              Include any unusual foods or changes in your diet
+            </Text>
           </View>
-        )}
+
+          <View style={styles.inputSection}>
+            <View style={styles.inputHeader}>
+              <MapPin size={20} color={colors.primary} />
+              <Text style={[styles.inputLabel, { color: colors.text }]}>
+                Location
+              </Text>
+            </View>
+            <TextInput
+              value={location}
+              onChangeText={setLocation}
+              placeholder="Enter your current location (city, country)"
+            />
+            <Text style={[styles.helperText, { color: colors.textSecondary }]}>
+              This helps identify region-specific health conditions
+            </Text>
+          </View>
+
+          <View style={[styles.warningCard, { backgroundColor: '#FEF3C7' }]}>
+            <Text style={[styles.warningText, { color: '#92400E' }]}>
+              ⚠️ This AI analysis is for informational purposes only and should not replace professional medical advice. Please consult a healthcare provider for proper diagnosis and treatment.
+            </Text>
+          </View>
+
+          <Button
+            title={analyzing ? "Analyzing..." : "Analyze Symptoms"}
+            onPress={analyzeSymptoms}
+            loading={analyzing}
+            variant="primary"
+          />
+        </View>
+
+        <View style={styles.bottomSpacing} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -215,6 +181,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 22,
   },
   formSection: {
     padding: 24,
@@ -232,66 +203,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  resultsSection: {
-    padding: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  subsectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  disclaimer: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 24,
-  },
-  disclaimerText: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  diseaseCard: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  diseaseHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  diseaseName: {
-    fontSize: 18,
-    fontWeight: '600',
-    flex: 1,
-  },
-  probabilityBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  probabilityText: {
-    color: '#FFFFFF',
+  helperText: {
     fontSize: 12,
-    fontWeight: '600',
+    marginTop: -8,
   },
-  diseaseDescription: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  recommendationsCard: {
+  warningCard: {
     padding: 16,
     borderRadius: 12,
-    marginBottom: 24,
+    marginVertical: 8,
   },
-  recommendationsText: {
+  warningText: {
     fontSize: 14,
     lineHeight: 20,
+    textAlign: 'center',
+  },
+  bottomSpacing: {
+    height: 40,
   },
 });

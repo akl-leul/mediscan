@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, ImageIcon, Loader } from 'lucide-react-native';
+import { Camera, ImageIcon, Loader, ArrowLeft } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button } from '@/components/Button';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { visionApi, VisionApiResponse } from '@/services/visionApi';
+import { aiStudio } from '@/services/aiStudioApi';
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'expo-router';
 
 export default function ScanScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { user } = useAuth();
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<VisionApiResponse | null>(null);
@@ -75,21 +78,31 @@ export default function ScanScreen() {
       
       reader.onloadend = async () => {
         const base64data = reader.result as string;
-        const base64 = base64data.split(',')[1]; // Remove data:image/jpeg;base64, prefix
+        const base64 = base64data.split(',')[1];
 
         try {
-          const result = await visionApi.analyzeMedicine(base64);
-          setScanResult(result);
+          // First, use Vision API to extract text
+          const visionResult = await visionApi.analyzeMedicine(base64);
+          
+          // Then use AI Studio to get detailed medicine information
+          const aiResult = await aiStudio.analyzeMedicineText(visionResult.medicineName);
+          
+          const finalResult = {
+            ...visionResult,
+            ...aiResult
+          };
+          
+          setScanResult(finalResult);
           
           // Save to database
           await supabase.from('scan_results').insert({
             user_id: user?.id,
             image_url: selectedImage,
-            medicine_name: result.medicineName,
-            description: result.description,
-            uses: result.uses,
-            side_effects: result.sideEffects,
-            dosage: result.dosage,
+            medicine_name: finalResult.medicineName,
+            description: finalResult.description,
+            uses: finalResult.uses,
+            side_effects: finalResult.sideEffects,
+            dosage: finalResult.dosage,
           });
         } catch (error) {
           Alert.alert('Scan Failed', error instanceof Error ? error.message : 'Unknown error');
@@ -114,10 +127,13 @@ export default function ScanScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>
-            {t('scan.title')}
+            Medicine Scanner
+          </Text>
+          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+            Scan any medicine to get detailed information
           </Text>
         </View>
 
@@ -128,16 +144,19 @@ export default function ScanScreen() {
               <Text style={[styles.uploadText, { color: colors.textSecondary }]}>
                 Select an image of the medicine to scan
               </Text>
+              <Text style={[styles.uploadSubtext, { color: colors.textSecondary }]}>
+                Make sure the medicine name is clearly visible
+              </Text>
             </View>
             
             <View style={styles.buttonContainer}>
               <Button
-                title={t('scan.takePhoto')}
+                title="Take Photo"
                 onPress={takePhoto}
                 variant="primary"
               />
               <Button
-                title={t('scan.choosePhoto')}
+                title="Choose from Gallery"
                 onPress={chooseFromGallery}
                 variant="outline"
               />
@@ -145,12 +164,14 @@ export default function ScanScreen() {
           </View>
         ) : (
           <View style={styles.imageSection}>
-            <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
+            </View>
             
             <View style={styles.buttonContainer}>
               {!scanResult && (
                 <Button
-                  title={scanning ? t('scan.scanning') : 'Scan Medicine'}
+                  title={scanning ? "Scanning..." : "Scan Medicine"}
                   onPress={scanMedicine}
                   loading={scanning}
                   variant="primary"
@@ -172,7 +193,7 @@ export default function ScanScreen() {
         {scanResult && (
           <View style={styles.resultsSection}>
             <Text style={[styles.sectionTitle, { color: colors.text }]}>
-              {t('scan.results')}
+              Scan Results
             </Text>
             
             <ResultCard title="Medicine Name" content={scanResult.medicineName} />
@@ -180,8 +201,16 @@ export default function ScanScreen() {
             <ResultCard title="Uses" content={scanResult.uses} />
             <ResultCard title="Side Effects" content={scanResult.sideEffects} />
             <ResultCard title="Dosage" content={scanResult.dosage} />
+
+            <View style={[styles.disclaimer, { backgroundColor: colors.surface }]}>
+              <Text style={[styles.disclaimerText, { color: colors.textSecondary }]}>
+                ⚠️ This information is for educational purposes only. Always consult with a healthcare professional before taking any medication.
+              </Text>
+            </View>
           </View>
         )}
+
+        <View style={styles.bottomSpacing} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -201,13 +230,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 22,
   },
   uploadSection: {
     padding: 24,
   },
   uploadCard: {
     padding: 48,
-    borderRadius: 16,
+    borderRadius: 20,
     alignItems: 'center',
     gap: 16,
     marginBottom: 24,
@@ -218,6 +252,11 @@ const styles = StyleSheet.create({
   uploadText: {
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: '500',
+  },
+  uploadSubtext: {
+    fontSize: 14,
+    textAlign: 'center',
   },
   buttonContainer: {
     gap: 12,
@@ -225,11 +264,22 @@ const styles = StyleSheet.create({
   imageSection: {
     padding: 24,
   },
+  imageContainer: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
   selectedImage: {
     width: '100%',
     height: 300,
-    borderRadius: 16,
-    marginBottom: 24,
   },
   resultsSection: {
     padding: 24,
@@ -237,12 +287,20 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   resultCard: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
+    padding: 20,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   resultTitle: {
     fontSize: 16,
@@ -252,5 +310,18 @@ const styles = StyleSheet.create({
   resultContent: {
     fontSize: 14,
     lineHeight: 20,
+  },
+  disclaimer: {
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 8,
+  },
+  disclaimerText: {
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  bottomSpacing: {
+    height: 40,
   },
 });

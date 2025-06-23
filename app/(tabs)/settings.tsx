@@ -10,7 +10,8 @@ import {
   LogOut, 
   ChevronRight, 
   Settings as SettingsIcon,
-  Shield
+  Shield,
+  Info
 } from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,11 +21,13 @@ import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { profileService } from '@/services/profileService';
 import { UserProfile } from '@/types';
 import { storage } from '@/lib/storage';
+import { useRouter } from 'expo-router';
 
 export default function SettingsScreen() {
   const { t, i18n } = useTranslation();
   const { colors, mode, setMode } = useTheme();
   const { signOut, user } = useAuth();
+  const router = useRouter();
   
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [accountModalVisible, setAccountModalVisible] = useState(false);
@@ -38,9 +41,9 @@ export default function SettingsScreen() {
   ];
 
   const themes = [
-    { key: 'light', label: t('settings.light'), icon: Sun },
-    { key: 'dark', label: t('settings.dark'), icon: Moon },
-    { key: 'system', label: t('settings.system'), icon: Monitor },
+    { key: 'light', label: 'Light', icon: Sun },
+    { key: 'dark', label: 'Dark', icon: Moon },
+    { key: 'system', label: 'System', icon: Monitor },
   ];
 
   useEffect(() => {
@@ -203,6 +206,15 @@ export default function SettingsScreen() {
               onPress={() => handleLanguageChange(language.code)}
             />
           ))}
+        </SettingsSection>
+
+        <SettingsSection title="About">
+          <SettingsItem
+            icon={Info}
+            title="About Developer"
+            subtitle="Learn more about the creator"
+            onPress={() => router.push('/about')}
+          />
         </SettingsSection>
 
         <SettingsSection title="Account Actions">

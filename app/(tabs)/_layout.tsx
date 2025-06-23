@@ -16,13 +16,20 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.card,
           borderTopColor: colors.border,
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 70,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '500',
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: t('navigation.dashboard'),
+          title: 'Dashboard',
           tabBarIcon: ({ size, color }) => (
             <LayoutDashboard size={size} color={color} />
           ),
@@ -31,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: t('navigation.scan'),
+          title: 'Scan',
           tabBarIcon: ({ size, color }) => (
             <Scan size={size} color={color} />
           ),
@@ -40,16 +47,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="diagnosis"
         options={{
-          title: t('navigation.diagnosis'),
+          title: 'Diagnosis',
           tabBarIcon: ({ size, color }) => (
             <Stethoscope size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
+        name="diagnosis-result"
+        options={{
+          href: null, // Hide from tab bar
+        }}
+      />
+      <Tabs.Screen
+        name="about"
+        options={{
+          href: null, // Hide from tab bar
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
-          title: t('navigation.settings'),
+          title: 'Settings',
           tabBarIcon: ({ size, color }) => (
             <Settings size={size} color={color} />
           ),
