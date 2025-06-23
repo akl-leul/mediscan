@@ -67,7 +67,7 @@ export default function AboutScreen() {
         >
           <View style={styles.profileImageContainer}>
             <View style={styles.profileImage}>
-              <Text style={styles.profileInitials}><MaterialCommunityIcons name="account-circle-outline" size={40} color="#fff" />LA</Text>
+              <Text style={styles.profileInitials}>LA</Text>
             </View>
           </View>
           <Text style={styles.heroName}>Leul Ayfokru</Text>
