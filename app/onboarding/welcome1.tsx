@@ -7,50 +7,49 @@ import { useTheme } from '@/contexts/ThemeContext';
 
 const { width, height } = Dimensions.get('window');
 
-export default function Welcome3Screen() {
+export default function Welcome1Screen() {
   const router = useRouter();
   const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
+      {/* 1. Full-screen background image */}
       <Image
-        source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?w=1480' }}
+        source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?w=1480' }}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
 
+      {/* 2. Gradient overlay that fades into your specified colors */}
       <LinearGradient
-        // The fade now starts much lower on the screen
-        colors={['transparent', 'rgba(0,0,0,0.9)']}
-        
-        // THIS IS THE KEY CHANGE:
-        // The gradient will be fully transparent until 60% down the screen,
-        // then fade to black in the bottom 40%.
-        locations={[0.6, 1.0]} 
-        
+        // Starts transparent, then fades into your original colors
+        colors={['transparent', '#667eea', '#764ba2']}
+        // Adjust the locations to control where the fade starts
+        locations={[0, 0.5, 1]}
         style={styles.gradientOverlay}
       />
-
+      
+      {/* 3. Content container that pushes everything to the bottom */}
       <View style={styles.contentContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>
-            AI Health{'\n'}Diagnosis
+            Welcome to{'\n'}MediScan AI
           </Text>
           <Text style={styles.subtitle}>
-            Get personalized health insights based on your symptoms, diet, and location with our advanced AI technology
+            Your intelligent medical companion for medicine identification and health insights
           </Text>
         </View>
 
         <View style={styles.buttonContainer}>
           <Button
-            title="Start Your Journey"
-            onPress={() => router.push('/auth/register')}
+            title="Get Started"
+            onPress={() => router.push('/onboarding/welcome2')}
             variant="secondary"
           />
           <View style={styles.pagination}>
-            <View style={styles.dot} />
-            <View style={styles.dot} />
             <View style={[styles.dot, styles.activeDot]} />
+            <View style={styles.dot} />
+            <View style={styles.dot} />
           </View>
         </View>
       </View>
@@ -61,25 +60,29 @@ export default function Welcome3Screen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#000', // Fallback color
   },
   backgroundImage: {
+    // Fills the entire screen, behind all other content
     ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
   gradientOverlay: {
+    // Sits on top of the image to provide the colored fade effect
     ...StyleSheet.absoluteFillObject,
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    // Pushes content to the bottom
+    justifyContent: 'flex-end', 
     paddingHorizontal: 24,
-    paddingBottom: 50,
+    // Safe area padding at the bottom
+    paddingBottom: 50, 
   },
   textContainer: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 32, // Space between text and button
   },
   title: {
     fontSize: 36,
