@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -66,10 +67,7 @@ export default function AboutScreen() {
         >
           <View style={styles.profileImageContainer}>
             <View style={styles.profileImage}>
-              <Image
-    source={{ uri: 'https://img.freepik.com/free-photo/medicine-container-spills-colorful-pills-background-generative-ai_188544-12527.jpg?t=st=1750665829~exp=1750669429~hmac=ab09af96be48ae752a0a01c46306f701fd7688ed9b6d8c676b4eadc1da3a8df6&w=1480' }}
-    style={styles.profileInitials}
-  />
+              <Text style={styles.profileInitials}>LA</Text>
             </View>
           </View>
           <Text style={styles.heroName}>Leul Ayfokru</Text>
@@ -160,7 +158,7 @@ export default function AboutScreen() {
             Made with ❤️ by Leul Ayfokru
           </Text>
           <Text style={[styles.footerSubtext, { color: colors.textSecondary }]}>
-            © 2025 MediScan AI. All rights reserved.
+            © 2024 MediScan AI. All rights reserved.
           </Text>
         </View>
 
