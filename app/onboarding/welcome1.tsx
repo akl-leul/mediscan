@@ -15,7 +15,7 @@ export default function Welcome1Screen() {
     <View style={styles.container}>
       {/* 1. Using a high-resolution background image */}
       <Image
-        source={{ uri: 'https://img.freepik.com/free-photo/portrait-3d-male-doctor_23-2151107407.jpg?w=1480' }}
+        source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?t=st=1750664526~exp=1750668126~hmac=c1e2364c3a35483fb2b6d0797b71625f9745e96a8d08ad87ee1c853bc6b6020d&w=1480' }}
         style={styles.backgroundImage}
         resizeMode="cover"
       />
