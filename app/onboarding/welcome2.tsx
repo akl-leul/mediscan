@@ -19,7 +19,7 @@ export default function Welcome2Screen() {
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://images.pexels.com/photos/3786126/pexels-photo-3786126.jpeg?auto=compress&cs=tinysrgb&w=800' }}
+            source={{ uri: 'https://img.freepik.com/free-photo/chef-using-ar-technology-his-profession_23-2151137480.jpg' }}
             style={styles.heroImage}
             resizeMode="cover"
           />
