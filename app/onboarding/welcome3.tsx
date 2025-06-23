@@ -19,7 +19,7 @@ export default function Welcome3Screen() {
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=800' }}
+            source={{ uri: 'https://img.freepik.com/free-photo/front-view-nurses-team-hospital_23-2150796738.jpg?t=st=1750664526~exp=1750668126~hmac=c1e2364c3a35483fb2b6d0797b71625f9745e96a8d08ad87ee1c853bc6b6020d&w=1480' }}
             style={styles.heroImage}
             resizeMode="cover"
           />
