@@ -99,7 +99,7 @@ export default function AboutScreen() {
             <SkillCard
               icon={Code}
               title="Web Development"
-              description="React, Node.js, TypeScript, Next.js"
+              description="React, Node.js, TypeScript, Next.js, Supabase, PostgreSQL"
             />
             <SkillCard
               icon={Smartphone}
