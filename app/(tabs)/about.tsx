@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Mail, Github, Globe, Heart, Code, Smartphone } from 'lucide-react-native';
+import { ArrowLeft, Mail, Github, Globe, Heart, Code, Smartphone, MaterialCommunityIcons } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -67,7 +67,7 @@ export default function AboutScreen() {
         >
           <View style={styles.profileImageContainer}>
             <View style={styles.profileImage}>
-              <Text style={styles.profileInitials}>LA</Text>
+              <Text style={styles.profileInitials}><MaterialCommunityIcons name="account-circle-outline" size={40} color="#fff" />LA</Text>
             </View>
           </View>
           <Text style={styles.heroName}>Leul Ayfokru</Text>
