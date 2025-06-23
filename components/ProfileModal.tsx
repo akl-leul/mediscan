@@ -96,10 +96,7 @@ export function ProfileModal({ visible, onClose, profile, onProfileUpdate }: Pro
   const genderOptions = [
     { label: 'Select Gender', value: '' },
     { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' },
-    { label: 'Prefer not to say', value: 'prefer_not_to_say' },
-  ];
+    { label: 'Female', value: 'female' }
 
   return (
     <Modal
