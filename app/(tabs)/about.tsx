@@ -81,8 +81,7 @@ export default function AboutScreen() {
             About Me
           </Text>
           <Text style={[styles.aboutText, { color: colors.textSecondary }]}>
-            I'm a passionate full-stack developer with over 3 years of experience building modern web and mobile applications. 
-            I specialize in creating user-friendly, scalable solutions that solve real-world problems.
+I'm a full-stack developer with over 3 years of experience crafting modern web and mobile applications, focused on building intuitive, scalable solutions that make a real impact.
           </Text>
           <Text style={[styles.aboutText, { color: colors.textSecondary }]}>
             MediScan AI represents my commitment to leveraging technology for healthcare innovation, 
