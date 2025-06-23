@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, Mail, Github, Globe, Heart, Code, Smartphone, MaterialCommunityIcons } from 'lucide-react-native';
+import { ArrowLeft, Mail, Github, Globe, Heart, Code, Smartphone } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LinearGradient } from 'expo-linear-gradient';
