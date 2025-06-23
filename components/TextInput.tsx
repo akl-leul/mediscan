@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextInput as RNTextInput, View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 
-// Add new props for icon and other RNTextInput props
-interface TextInputProps extends React.ComponentProps<typeof RNTextInput> {
+interface TextInputProps {
   label?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder?: string;
+  secureTextEntry?: boolean;
   error?: string;
-  icon?: React.ReactNode;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 export function TextInput({
@@ -16,62 +20,38 @@ export function TextInput({
   placeholder,
   secureTextEntry,
   error,
-  icon,
-  ...props // Pass other RNTextInput props
+  multiline,
+  numberOfLines,
 }: TextInputProps) {
   const { colors } = useTheme();
-  const [isFocused, setIsFocused] = useState(false);
-
-  // Define colors for different states
-  const getBorderColor = () => {
-    if (error) return '#FF5A5F'; // A vibrant error red
-    if (isFocused) return 'rgba(128, 90, 213, 1)'; // A glowing purple on focus
-    return 'rgba(255, 255, 255, 0.3)'; // Default subtle border
-  };
 
   return (
     <View style={styles.container}>
       {label && (
-        <Text style={[styles.label, { color: 'rgba(255,255,255,0.8)' }]}>
+        <Text style={[styles.label, { color: colors.text }]}>
           {label}
         </Text>
       )}
-      
-      <View 
+      <RNTextInput
         style={[
-          styles.inputContainer,
-          { 
-            borderColor: getBorderColor(),
-            shadowColor: isFocused ? 'rgba(128, 90, 213, 0.8)' : 'transparent',
-            shadowRadius: isFocused ? 10 : 0,
-            shadowOpacity: 0.8,
-          }
+          styles.input,
+          {
+            backgroundColor: colors.surface,
+            borderColor: error ? '#EF4444' : colors.border,
+            color: colors.text,
+          },
+          multiline && { height: numberOfLines ? numberOfLines * 40 : 100 },
         ]}
-      >
-        {icon && <View style={styles.iconContainer}>{icon}</View>}
-        <RNTextInput
-          // --- THIS IS THE FIX ---
-          // Spread the other props FIRST...
-          {...props} 
-          
-          // ...then define your controlled props LAST to ensure they take precedence.
-          style={styles.input}
-          value={value}
-          onChangeText={onChangeText}
-          // --- END OF FIX ---
-          
-          placeholder={placeholder}
-          placeholderTextColor="rgba(255, 255, 255, 0.5)"
-          secureTextEntry={secureTextEntry}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          autoCorrect={false}
-          spellCheck={false}
-        />
-      </View>
-
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.textSecondary}
+        secureTextEntry={secureTextEntry}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+      />
       {error && (
-        <Text style={styles.errorText}>
+        <Text style={styles.error}>
           {error}
         </Text>
       )}
@@ -81,35 +61,23 @@ export function TextInput({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    marginBottom: 16,
   },
   label: {
     fontSize: 14,
     fontWeight: '500',
     marginBottom: 8,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 16,
-    borderWidth: 1.5,
-    height: 56,
-    paddingHorizontal: 12,
-  },
-  iconContainer: {
-    marginRight: 12,
-  },
   input: {
-    flex: 1,
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     fontSize: 16,
-    color: '#FFFFFF',
-    height: '100%',
   },
-  errorText: {
-    color: '#FF5A5F',
+  error: {
+    color: '#EF4444',
     fontSize: 12,
-    marginTop: 6,
-    marginLeft: 4,
+    marginTop: 4,
   },
 });
