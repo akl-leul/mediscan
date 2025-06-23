@@ -21,7 +21,7 @@ interface ThemeContextType {
 
 const lightColors = {
   primary: '#3B82F6',
-  background: '#1e1e1e',
+  background: '#e0dfe4',
   surface: '#F8FAFC',
   text: '#1F2937',
   textSecondary: '#6B7280',
