@@ -19,7 +19,7 @@ export default function Welcome1Screen() {
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=800' }}
+            source={{ uri: 'https://img.freepik.com/premium-photo/3d-doctor-medical-consultation-avatar-online-healthcare-pharmacist-expert-icon-smiling-therapist-cartoon-male-cardiologist-vector-character-stethoscope-shield-young-man-3d-doctor-portrait_1254992-245454.jpg?w=900' }}
             style={styles.heroImage}
             resizeMode="cover"
           />
@@ -28,7 +28,7 @@ export default function Welcome1Screen() {
         
         <View style={styles.textContainer}>
           <Text style={styles.title}>
-            Welcome to{'.'}MediScan AI
+            Welcome to{'\n'}MediScan AI
           </Text>
           <Text style={styles.subtitle}>
             Your intelligent medical companion for medicine identification and health insights
