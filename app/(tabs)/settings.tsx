@@ -9,7 +9,6 @@ import {
   Globe, 
   LogOut, 
   ChevronRight, 
-  User,
   Settings as SettingsIcon,
   Shield
 } from 'lucide-react-native';
@@ -17,6 +16,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { ProfileModal } from '@/components/ProfileModal';
 import { AccountModal } from '@/components/AccountModal';
+import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { profileService } from '@/services/profileService';
 import { UserProfile } from '@/types';
 import { storage } from '@/lib/storage';
@@ -138,9 +138,7 @@ export default function SettingsScreen() {
       style={[styles.profileCard, { backgroundColor: colors.card }]}
       onPress={() => setProfileModalVisible(true)}
     >
-      <View style={[styles.profileAvatar, { backgroundColor: colors.primary }]}>
-        <User size={24} color="#FFFFFF" />
-      </View>
+      <ProfileAvatar userId={user?.id} size={70} />
       <View style={styles.profileInfo}>
         <Text style={[styles.profileName, { color: colors.text }]}>
           {userProfile?.full_name || 'Complete your profile'}
@@ -149,9 +147,11 @@ export default function SettingsScreen() {
           {user?.email}
         </Text>
         {userProfile?.full_name && (
-          <Text style={[styles.profileStatus, { color: colors.primary }]}>
-            Profile Complete
-          </Text>
+          <View style={styles.profileBadge}>
+            <Text style={[styles.profileBadgeText, { color: colors.primary }]}>
+              ✓ Profile Complete
+            </Text>
+          </View>
         )}
       </View>
       <ChevronRight size={16} color={colors.textSecondary} />
@@ -160,10 +160,10 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>
-            {t('settings.title')}
+            Settings
           </Text>
         </View>
 
@@ -180,7 +180,7 @@ export default function SettingsScreen() {
           />
         </SettingsSection>
 
-        <SettingsSection title={t('settings.theme')}>
+        <SettingsSection title="Appearance">
           {themes.map((theme, index) => (
             <SettingsItem
               key={theme.key}
@@ -192,7 +192,7 @@ export default function SettingsScreen() {
           ))}
         </SettingsSection>
 
-        <SettingsSection title={t('settings.language')}>
+        <SettingsSection title="Language">
           {languages.map((language) => (
             <SettingsItem
               key={language.code}
@@ -205,14 +205,16 @@ export default function SettingsScreen() {
           ))}
         </SettingsSection>
 
-        <SettingsSection title="Account">
+        <SettingsSection title="Account Actions">
           <SettingsItem
             icon={LogOut}
-            title={t('settings.signOut')}
+            title="Sign Out"
             onPress={handleSignOut}
             showChevron={false}
           />
         </SettingsSection>
+
+        <View style={styles.bottomSpacing} />
       </ScrollView>
 
       <ProfileModal
@@ -253,15 +255,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
-    borderRadius: 16,
+    borderRadius: 20,
     gap: 16,
-  },
-  profileAvatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   profileInfo: {
     flex: 1,
@@ -273,11 +276,14 @@ const styles = StyleSheet.create({
   },
   profileEmail: {
     fontSize: 14,
-    marginBottom: 4,
+    marginBottom: 8,
   },
-  profileStatus: {
+  profileBadge: {
+    alignSelf: 'flex-start',
+  },
+  profileBadgeText: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   section: {
     marginBottom: 32,
@@ -292,6 +298,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     borderRadius: 16,
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   settingsItem: {
     flexDirection: 'row',
@@ -299,7 +313,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomColor: 'rgba(0,0,0,0.05)',
   },
   settingsItemLeft: {
     flexDirection: 'row',
@@ -317,5 +331,8 @@ const styles = StyleSheet.create({
   settingsItemSubtitle: {
     fontSize: 14,
     marginTop: 2,
+  },
+  bottomSpacing: {
+    height: 40,
   },
 });
