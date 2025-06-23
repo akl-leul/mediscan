@@ -19,7 +19,7 @@ export default function Welcome2Screen() {
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://img.freepik.com/free-photo/chef-using-ar-technology-his-profession_23-2151137480.jpg' }}
+            source={{ uri: 'https://img.freepik.com/free-photo/medicine-bottle-spilling-colorful-pills-depicting-addiction-risks-generative-ai_188544-12529.jpg?t=st=1750664462~exp=1750668062~hmac=1f84be4f94969e271befba1bc46204c07863d5b5aabe5c2e384fa6ceb804d51d&w=1480' }}
             style={styles.heroImage}
             resizeMode="cover"
           />
