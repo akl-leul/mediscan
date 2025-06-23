@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   imageContainer: {
-    flex: 0,
+    flex: 0.5,
     marginTop: 60,
     borderRadius: 0,
     overflow: 'hidden',
