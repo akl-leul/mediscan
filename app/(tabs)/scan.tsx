@@ -159,7 +159,7 @@ export default function ScanScreen() {
                 title="Choose from Gallery"
                 onPress={chooseFromGallery}
                 variant="outline"
-                style={{ color: '#ffffff' }}
+                style={{ color: '#000' }}
               />
             </View>
           </View>
