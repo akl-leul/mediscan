@@ -33,9 +33,9 @@ export default function RegisterScreen() {
       confirmPassword?: string; 
     } = {};
     
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
       newErrors.email = 'Email is invalid';
     }
     
@@ -60,14 +60,14 @@ export default function RegisterScreen() {
     
     setLoading(true);
     try {
-      const { error } = await signUp(email, password);
+      const { error } = await signUp(email.trim(), password);
       if (error) {
         Alert.alert('Registration Failed', error);
       } else {
         Alert.alert(
           'Success', 
-          'Registration successful! You can now sign in.',
-          [{ text: 'OK', onPress: () => router.push('/auth/login') }]
+          'Account created successfully! You are now signed in.',
+          [{ text: 'OK', onPress: () => router.replace('/(tabs)') }]
         );
       }
     } catch (error) {

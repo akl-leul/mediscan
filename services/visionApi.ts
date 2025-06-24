@@ -44,7 +44,12 @@ export class VisionApiService {
         }
       );
 
+      if (!response.ok) {
+        throw new Error(`Vision API request failed: ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log('Vision API Response:', data);
       
       if (data.responses && data.responses[0]) {
         const textAnnotations = data.responses[0].textAnnotations || [];
@@ -55,51 +60,93 @@ export class VisionApiService {
           ? textAnnotations[0].description 
           : '';
 
+        console.log('Detected text:', detectedText);
+        console.log('Detected labels:', labelAnnotations.map(l => l.description));
+
         // Use AI to analyze the detected text and labels
         return await this.analyzeMedicineText(detectedText, labelAnnotations);
       }
 
       // Return default response instead of throwing error
-      return {
-        medicineName: 'Unknown Medicine',
-        description: 'No text detected in the image. Please try taking a clearer photo of the medicine package.',
-        uses: 'Unable to determine uses from image. Please consult healthcare provider.',
-        sideEffects: 'Unable to determine side effects from image. Please refer to package insert.',
-        dosage: 'Unable to determine dosage from image. Please follow package instructions or consult healthcare provider.',
-      };
+      return this.getDefaultResponse();
     } catch (error) {
       console.error('Vision API Error:', error);
-      throw new Error('Failed to analyze medicine. Please try again.');
+      // Return default response instead of throwing error
+      return this.getDefaultResponse();
     }
   }
 
   private async analyzeMedicineText(text: string, labels: any[]): Promise<VisionApiResponse> {
-    // This would ideally use Google AI Studio to analyze the detected text
-    // For now, we'll return mock data based on detected text
-    const labelTexts = labels.map(label => label.description).join(', ');
+    // If we have meaningful text, try to extract medicine information
+    if (text && text.length > 10) {
+      const medicineName = this.extractMedicineName(text);
+      const labelTexts = labels.map(label => label.description).join(', ');
+      
+      // Try to get more detailed information using AI Studio
+      try {
+        const { aiStudio } = await import('./aiStudioApi');
+        const aiResult = await aiStudio.analyzeMedicineText(medicineName);
+        return aiResult;
+      } catch (aiError) {
+        console.error('AI Studio error:', aiError);
+        // Fallback to basic analysis
+        return this.createBasicResponse(medicineName, text, labelTexts);
+      }
+    }
     
-    // Mock response - in production, this would call Google AI Studio
-    return {
-      medicineName: this.extractMedicineName(text),
-      description: `Medicine identified from package text: ${text.substring(0, 100)}...`,
-      uses: 'Consult healthcare provider for proper usage information.',
-      sideEffects: 'Please refer to package insert for complete side effects information.',
-      dosage: 'Follow dosage instructions on package or as prescribed by healthcare provider.',
-    };
+    return this.getDefaultResponse();
   }
 
   private extractMedicineName(text: string): string {
-    // Simple extraction logic - in production, use more sophisticated NLP
-    const words = text.split(/\s+/);
-    const commonMedicineWords = ['tablet', 'capsule', 'syrup', 'injection', 'cream', 'gel'];
+    // Improved medicine name extraction
+    const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    const commonMedicineWords = ['tablet', 'capsule', 'syrup', 'injection', 'cream', 'gel', 'mg', 'ml', 'dose'];
+    const excludeWords = ['for', 'use', 'only', 'external', 'internal', 'keep', 'store', 'away', 'children'];
     
+    // Look for potential medicine names in the first few lines
+    for (const line of lines.slice(0, 5)) {
+      const words = line.split(/\s+/);
+      for (const word of words) {
+        const cleanWord = word.replace(/[^a-zA-Z]/g, '');
+        if (cleanWord.length > 3 && 
+            !commonMedicineWords.includes(cleanWord.toLowerCase()) &&
+            !excludeWords.includes(cleanWord.toLowerCase()) &&
+            /^[A-Z]/.test(cleanWord)) {
+          return cleanWord;
+        }
+      }
+    }
+    
+    // If no good candidate found, return the first meaningful word
+    const words = text.split(/\s+/);
     for (const word of words) {
-      if (word.length > 3 && !commonMedicineWords.includes(word.toLowerCase())) {
-        return word;
+      const cleanWord = word.replace(/[^a-zA-Z]/g, '');
+      if (cleanWord.length > 4) {
+        return cleanWord;
       }
     }
     
     return 'Unknown Medicine';
+  }
+
+  private createBasicResponse(medicineName: string, text: string, labels: string): VisionApiResponse {
+    return {
+      medicineName: medicineName,
+      description: `Medicine identified from package. Detected text includes: ${text.substring(0, 200)}${text.length > 200 ? '...' : ''}`,
+      uses: 'Please consult the package insert or a healthcare provider for detailed usage information.',
+      sideEffects: 'Please refer to the package insert for complete side effects information. Common side effects may vary.',
+      dosage: 'Follow the dosage instructions on the package or as prescribed by your healthcare provider.',
+    };
+  }
+
+  private getDefaultResponse(): VisionApiResponse {
+    return {
+      medicineName: 'Medicine Not Clearly Detected',
+      description: 'The image quality may not be sufficient for accurate text detection. Please try taking a clearer photo with better lighting, ensuring the medicine name is clearly visible.',
+      uses: 'Unable to determine specific uses from the image. Please consult a healthcare provider or pharmacist for information about this medicine.',
+      sideEffects: 'Unable to determine side effects from the image. Please refer to the package insert or consult a healthcare provider.',
+      dosage: 'Unable to determine dosage from the image. Please follow package instructions or consult your healthcare provider.',
+    };
   }
 }
 

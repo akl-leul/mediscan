@@ -24,9 +24,9 @@ export default function LoginScreen() {
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
     
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
       newErrors.email = 'Email is invalid';
     }
     
@@ -45,7 +45,7 @@ export default function LoginScreen() {
     
     setLoading(true);
     try {
-      const { error } = await signIn(email, password);
+      const { error } = await signIn(email.trim(), password);
       if (error) {
         Alert.alert('Login Failed', error);
       } else {

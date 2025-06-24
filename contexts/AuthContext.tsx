@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.id);
         setUser(session?.user as User || null);
         setIsLoading(false);
       }
@@ -37,33 +38,76 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
         password,
       });
-      return { error: error?.message || null };
+      
+      if (error) {
+        console.error('Sign in error:', error);
+        return { error: error.message };
+      }
+      
+      console.log('Sign in successful:', data.user?.id);
+      return { error: null };
     } catch (error) {
+      console.error('Sign in exception:', error);
       return { error: 'An unexpected error occurred' };
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const signUp = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
         password,
         options: {
           emailRedirectTo: undefined, // Disable email confirmation
         }
       });
-      return { error: error?.message || null };
+      
+      if (error) {
+        console.error('Sign up error:', error);
+        return { error: error.message };
+      }
+      
+      console.log('Sign up successful:', data.user?.id);
+      
+      // For development, automatically sign in the user
+      if (data.user && !data.session) {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        
+        if (signInError) {
+          console.error('Auto sign in error:', signInError);
+          return { error: 'Account created but failed to sign in automatically. Please try signing in manually.' };
+        }
+      }
+      
+      return { error: null };
     } catch (error) {
+      console.error('Sign up exception:', error);
       return { error: 'An unexpected error occurred' };
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      setIsLoading(true);
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
