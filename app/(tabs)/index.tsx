@@ -14,29 +14,36 @@ export default function DashboardScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const [recentActivity, setRecentActivity] = useState([]);
   const [stats, setStats] = useState({ scans: 0, diagnoses: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadDashboardData();
-  }, []);
+    if (user && !isLoading) {
+      loadDashboardData();
+    }
+  }, [user, isLoading]);
 
   const loadDashboardData = async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
     try {
       // Load recent scans and diagnoses
       const [scanResults, diagnosisResults] = await Promise.all([
         supabase
           .from('scan_results')
           .select('*')
-          .eq('user_id', user?.id)
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(5),
         supabase
           .from('diagnosis_results')
           .select('*')
-          .eq('user_id', user?.id)
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(5),
       ]);
@@ -117,6 +124,17 @@ export default function DashboardScreen() {
     if (diffInHours < 48) return 'Yesterday';
     return date.toLocaleDateString();
   };
+
+  // Show loading state while authentication is being checked
+  if (isLoading) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.loadingContainer}>
+          <Text style={[styles.loadingText, { color: colors.text }]}>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
@@ -256,6 +274,14 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
   },
   header: {
     padding: 24,
