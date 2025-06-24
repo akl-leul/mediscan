@@ -59,7 +59,14 @@ export class VisionApiService {
         return await this.analyzeMedicineText(detectedText, labelAnnotations);
       }
 
-      throw new Error('No medicine detected in image');
+      // Return default response instead of throwing error
+      return {
+        medicineName: 'Unknown Medicine',
+        description: 'No text detected in the image. Please try taking a clearer photo of the medicine package.',
+        uses: 'Unable to determine uses from image. Please consult healthcare provider.',
+        sideEffects: 'Unable to determine side effects from image. Please refer to package insert.',
+        dosage: 'Unable to determine dosage from image. Please follow package instructions or consult healthcare provider.',
+      };
     } catch (error) {
       console.error('Vision API Error:', error);
       throw new Error('Failed to analyze medicine. Please try again.');
