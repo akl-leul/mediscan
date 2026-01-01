@@ -260,6 +260,17 @@ export default function DashboardScreen() {
               </View>
             ))
           )}
+          
+          {recentActivity.length > 0 && (
+            <TouchableOpacity
+              style={[styles.viewAllButton, { backgroundColor: colors.surface }]}
+              onPress={() => router.push('/diagnosis-history')}
+            >
+              <Text style={[styles.viewAllText, { color: colors.primary }]}>
+                View All Diagnosis History
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={styles.bottomSpacing} />
@@ -453,6 +464,16 @@ const styles = StyleSheet.create({
   activityActionText: {
     fontSize: 14,
     fontWeight: '500',
+  },
+  viewAllButton: {
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  viewAllText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   bottomSpacing: {
     height: 40,

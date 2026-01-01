@@ -17,20 +17,20 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { ProfileModal } from '@/components/ProfileModal';
 import { AccountModal } from '@/components/AccountModal';
+import { AboutModal } from '@/components/AboutModal';
 import { ProfileAvatar } from '@/components/ProfileAvatar';
 import { profileService } from '@/services/profileService';
 import { UserProfile } from '@/types';
 import { storage } from '@/lib/storage';
-import { useRouter } from 'expo-router';
 
 export default function SettingsScreen() {
   const { t, i18n } = useTranslation();
   const { colors, mode, setMode } = useTheme();
   const { signOut, user } = useAuth();
-  const router = useRouter();
   
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [accountModalVisible, setAccountModalVisible] = useState(false);
+  const [aboutModalVisible, setAboutModalVisible] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
@@ -213,7 +213,7 @@ export default function SettingsScreen() {
             icon={Info}
             title="About Developer"
             subtitle="Learn more about the creator"
-            onPress={() => router.push('/about')}
+            onPress={() => setAboutModalVisible(true)}
           />
         </SettingsSection>
 
@@ -239,6 +239,11 @@ export default function SettingsScreen() {
       <AccountModal
         visible={accountModalVisible}
         onClose={() => setAccountModalVisible(false)}
+      />
+
+      <AboutModal
+        visible={aboutModalVisible}
+        onClose={() => setAboutModalVisible(false)}
       />
     </SafeAreaView>
   );
