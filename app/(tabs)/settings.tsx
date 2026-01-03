@@ -73,13 +73,25 @@ export default function SettingsScreen() {
     await storage.setItem('language', languageCode);
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     Alert.alert(
       'Sign Out',
       'Are you sure you want to sign out?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Sign Out', style: 'destructive', onPress: signOut },
+        { 
+          text: 'Sign Out', 
+          style: 'destructive', 
+          onPress: async () => {
+            try {
+              await signOut();
+              // Navigation will be handled by the auth state change listener
+            } catch (error) {
+              console.error('Sign out failed:', error);
+              Alert.alert('Error', 'Failed to sign out. Please try again.');
+            }
+          }
+        },
       ]
     );
   };

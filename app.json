@@ -7,9 +7,16 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mediscan.app"
+    },
+    "android": {
+      "package": "com.mediscan.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -18,7 +25,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font", 
+      "expo-font",
       "expo-web-browser",
       [
         "expo-camera",

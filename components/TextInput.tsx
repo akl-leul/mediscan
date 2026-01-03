@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput as RNTextInput, View, Text, StyleSheet } from 'react-native';
+import { TextInput as RNTextInput, View, Text, StyleSheet, KeyboardTypeOptions } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface TextInputProps {
@@ -11,6 +11,7 @@ interface TextInputProps {
   error?: string;
   multiline?: boolean;
   numberOfLines?: number;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export function TextInput({
@@ -22,6 +23,7 @@ export function TextInput({
   error,
   multiline,
   numberOfLines,
+  keyboardType,
 }: TextInputProps) {
   const { colors } = useTheme();
 
@@ -49,6 +51,7 @@ export function TextInput({
         secureTextEntry={secureTextEntry}
         multiline={multiline}
         numberOfLines={numberOfLines}
+        keyboardType={keyboardType}
       />
       {error && (
         <Text style={styles.error}>
