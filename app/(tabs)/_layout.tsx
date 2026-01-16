@@ -60,7 +60,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="diagnosis-history"
         options={{
           href: null, // Hide from tab bar
         }}

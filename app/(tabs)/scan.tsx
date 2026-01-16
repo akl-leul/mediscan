@@ -8,7 +8,6 @@ import { Button } from '@/components/Button';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { visionApi, VisionApiResponse } from '@/services/visionApi';
-import { aiStudio } from '@/services/aiStudioApi';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'expo-router';
 
@@ -81,16 +80,8 @@ export default function ScanScreen() {
         const base64 = base64data.split(',')[1];
 
         try {
-          // First, use Vision API to extract text
-          const visionResult = await visionApi.analyzeMedicine(base64);
-          
-          // Then use AI Studio to get detailed medicine information
-          const aiResult = await aiStudio.analyzeMedicineText(visionResult.medicineName);
-          
-          const finalResult = {
-            ...visionResult,
-            ...aiResult
-          };
+          // Use AI Studio to analyze the medicine image directly
+          const finalResult = await visionApi.analyzeMedicine(base64);
           
           setScanResult(finalResult);
           

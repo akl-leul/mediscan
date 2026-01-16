@@ -17,19 +17,24 @@ const initI18n = async () => {
   let savedLanguage = await storage.getItem('language');
   
   if (!savedLanguage) {
-    savedLanguage = Localization.locale.split('-')[0];
+    savedLanguage = Localization.getLocales()[0].languageCode;
   }
 
-  i18n.use(initReactI18next).init({
-    resources,
-    lng: savedLanguage,
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+  await i18n
+    .use(initReactI18next)
+    .init({
+      resources,
+      lng: savedLanguage || 'en',
+      fallbackLng: 'en',
+      interpolation: {
+        escapeValue: false,
+      },
+      compatibilityJSON: 'v3',
+      pluralSeparator: '_',
+      contextSeparator: '_',
+    });
 };
 
-initI18n();
+initI18n().catch(console.error);
 
 export default i18n;

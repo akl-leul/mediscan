@@ -21,7 +21,7 @@ interface ThemeContextType {
 
 const lightColors = {
   primary: '#3B82F6',
-  background: '#FFFFFF',
+  background: '#dad4e0',
   surface: '#F8FAFC',
   text: '#1F2937',
   textSecondary: '#6B7280',
@@ -31,7 +31,7 @@ const lightColors = {
 
 const darkColors = {
   primary: '#60A5FA',
-  background: '#111827',
+  background: '#1e1b2e',
   surface: '#1F2937',
   text: '#F9FAFB',
   textSecondary: '#D1D5DB',
@@ -77,7 +77,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    // Fallback to default theme when context is not available
+    return {
+      mode: 'system' as ThemeMode,
+      isDark: false,
+      setMode: () => {},
+      colors: lightColors,
+    };
   }
   return context;
 }
